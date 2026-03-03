@@ -1,0 +1,9 @@
+-r requirements.txt
+
+# Development and quality tooling
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+black>=23.0.0
+mypy>=1.4.0
+ruff>=0.0.280

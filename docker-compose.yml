@@ -1,0 +1,48 @@
+services:
+  cost-api:
+    build: .
+    image: cost-attribution:local
+    container_name: cost-attribution-api
+    ports:
+      - "8000:8000"
+    environment:
+      COST_ATTRIBUTION_JSON_LOGS: "true"
+      COST_ATTRIBUTION_LOG_LEVEL: "INFO"
+      COST_ATTRIBUTION_DB_ROOT: "/app/data"
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    cpus: "1.00"
+    mem_limit: "768m"
+    pids_limit: 256
+    command: ["python", "-m", "uvicorn", "cost_attribution.api.app:app", "--host", "0.0.0.0", "--port", "8000"]
+
+  cost-dashboard:
+    image: cost-attribution:local
+    container_name: cost-attribution-dashboard
+    depends_on:
+      cost-api:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      COST_ATTRIBUTION_JSON_LOGS: "true"
+      COST_ATTRIBUTION_LOG_LEVEL: "INFO"
+      COST_ATTRIBUTION_DB_ROOT: "/app/data"
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    cpus: "0.50"
+    mem_limit: "256m"
+    pids_limit: 128
+    command: ["python", "-m", "uvicorn", "cost_attribution.dashboard.app:app", "--host", "0.0.0.0", "--port", "8080"]
