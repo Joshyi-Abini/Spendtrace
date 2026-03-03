@@ -2,7 +2,7 @@
 
 **Feature-level AWS cost attribution for Python applications.**
 
-You're getting surprise AWS bills. Cost Cure shows you which services are spending money — but not which *features* in your product are responsible, or which *customers* are driving the cost. This library closes that gap.
+You're getting surprise AWS bills. Cost Explorer shows you which services are spending money — but not which *features* in your product are responsible, or which *customers* are driving the cost. This library closes that gap.
 
 ```
 feature                   dynamodb     bedrock       s3        total/call
