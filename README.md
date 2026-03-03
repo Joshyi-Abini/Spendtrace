@@ -2,7 +2,7 @@
 
 **Feature-level AWS cost attribution for Python applications.**
 
-You're getting surprise AWS bills. Cost Explorer shows you which services are spending money — but not which *features* in your product are responsible, or which *customers* are driving the cost. This library closes that gap.
+You're getting surprise AWS bills. Cost Explorer shows you which services are spending money but not which *features* in your product are responsible, or which *customers* are driving the cost. This library closes that gap.
 
 ```
 feature                   dynamodb     bedrock       s3        total/call
@@ -11,7 +11,7 @@ search                    $0.041       —            $0.001     $0.042
 batch_processing          $0.000       —            —          $0.000
 ```
 
-It instruments your Python application directly — not your AWS tags, not your billing data after the fact — so the attribution is exact, not inferred.
+It instruments your Python application directly — not your AWS tags, not your billing data after the fact so the attribution is exact, not inferred.
 
 ---
 
@@ -30,8 +30,8 @@ pip install spendtrace
 Call `auto_instrument()` once at startup. Every boto3 and LLM SDK call made inside a `@cost_track` scope is captured automatically.
 
 ```python
-import spendtrace as cost_attribution
-cost_attribution.auto_instrument()   # patches boto3, openai, anthropic SDKs
+import spendtrace
+spendtrace.auto_instrument()   # patches boto3, openai, anthropic SDKs
 ```
 
 Decorate your feature entry points:
